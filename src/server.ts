@@ -3,22 +3,22 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import app from "./app";
+import { envVars } from "./app/config/env";
 
 dotenv.config();
 
 let server: Server;
 
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
 const startServer = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI as string);
+    await mongoose.connect(envVars.MONGODB_URI);
     console.log("Connected to MongoDB");
 
-    server = app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+    server = app.listen(envVars.PORT, () => {
+      console.log(`Server is running on port ${envVars.PORT}`);
     });
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
